@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Poll App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        .poll-container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .option {
+            margin: 10px 0;
+        }
+        .results {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="poll-container">
+        <h2>Which is your favorite programming language?</h2>
+        <div id="options"></div>
+        <button onclick="submitVote()">Vote</button>
+        <div class="results" id="results"></div>
+    </div>
+    
+    <script>
+        const pollOptions = ["JavaScript", "Python", "Java", "C++"];
+        let votes = new Array(pollOptions.length).fill(0);
+
+        function renderPoll() {
+            const optionsContainer = document.getElementById("options");
+            optionsContainer.innerHTML = "";
+            pollOptions.forEach((option, index) => {
+                optionsContainer.innerHTML += `
+                    <div class="option">
+                        <input type="radio" name="poll" value="${index}" id="option${index}">
+                        <label for="option${index}">${option}</label>
+                    </div>
+                `;
+            });
+        }
+
+        function submitVote() {
+            const selectedOption = document.querySelector('input[name="poll"]:checked');
+            if (selectedOption) {
+                votes[selectedOption.value]++;
+                displayResults();
+            } else {
+                alert("Please select an option before voting.");
+            }
+        }
+
+        function displayResults() {
+            const resultsContainer = document.getElementById("results");
+            resultsContainer.innerHTML = "<h3>Live Results:</h3>";
+            pollOptions.forEach((option, index) => {
+                resultsContainer.innerHTML += `<p>${option}: ${votes[index]} votes</p>`;
+            });
+        }
+
+        renderPoll();
+    </script>
+</body>
+</html>
